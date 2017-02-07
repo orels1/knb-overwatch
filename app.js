@@ -55,7 +55,7 @@ console.log('Server is listening at port ' + app.get('port'));
  * */
 
 // Main
-// var config = require('./backend/api/v1/config'),
+var logs = require('./backend/api/v1/logs');
 
 /*
  * Passport
@@ -98,40 +98,40 @@ function apiAccessControl(restricted, cors, req, res, next) {
  * */
 
 // Main
-// app.use('/api/v1/config', cors(),
-//     function(req, res, next) {apiAccessControl(true, false, req, res, next);},
-//     config.router);
+app.use('/api/v1/logs', cors(),
+    // function(req, res, next) {apiAccessControl(true, false, req, res, next);},
+    logs.router);
 
 /*
  * Frontend
  * */
-var pug  = require('pug'),
-    React = require('react'),
-    ReactDOM = require('react-dom/server'),
-    Router = require('react-router'),
-    routes = require('frontend/app/routes'),
-    DocumentMeta = require('react-document-meta');
-
-app.set('view engine', 'pug');
-
-/*
- * React Middleware
- * */
-app.use(function(req, res) {
-    Router.match({ 'routes': routes.default, 'location': req.url }, function(err, redirectLocation, renderProps) {
-        if (err) {
-            res.status(500).send(err.message);
-        } else if (redirectLocation) {
-            res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
-        } else if (renderProps) {
-            var html = ReactDOM.renderToString(React.createElement(Router.RouterContext, renderProps));
-            var head = DocumentMeta.renderAsHTML();
-            res.render('frontend/views/index', { 'html': html, 'head': head });
-        } else {
-            res.status(404).send('Page Not Found');
-        }
-    });
-});
+// var pug  = require('pug'),
+//     React = require('react'),
+//     ReactDOM = require('react-dom/server'),
+//     Router = require('react-router'),
+//     routes = require('frontend/app/routes'),
+//     DocumentMeta = require('react-document-meta');
+//
+// app.set('view engine', 'pug');
+//
+// /*
+//  * React Middleware
+//  * */
+// app.use(function(req, res) {
+//     Router.match({ 'routes': routes.default, 'location': req.url }, function(err, redirectLocation, renderProps) {
+//         if (err) {
+//             res.status(500).send(err.message);
+//         } else if (redirectLocation) {
+//             res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
+//         } else if (renderProps) {
+//             var html = ReactDOM.renderToString(React.createElement(Router.RouterContext, renderProps));
+//             var head = DocumentMeta.renderAsHTML();
+//             res.render('frontend/views/index', { 'html': html, 'head': head });
+//         } else {
+//             res.status(404).send('Page Not Found');
+//         }
+//     });
+// });
 
 // Error handler
 if (process.env.NODE_ENV === 'prod') {
@@ -151,6 +151,22 @@ app.use(function onError(err, req, res, next) {
         return res.status(401).send({
             'error': 'Unauthorized',
             'error_details': 'Please provide correct Service-Token header',
+            'results': {},
+        });
+    }
+
+    if (err.message === 'IncorrectMongooseId') {
+        return res.status(400).send({
+            'error': 'IncorrectMongooseId',
+            'error_details': 'Provided database ID is mailformed',
+            'results': {},
+        });
+    }
+
+    if (err.message === 'EntryNotFound') {
+        return res.status(404).send({
+            'error': 'EntryNotFound',
+            'error_details': 'Requested entry is not found',
             'results': {},
         });
     }

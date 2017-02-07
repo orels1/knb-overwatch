@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 
 let KnbUserSchema = new mongoose.Schema({
     'username': String,
-    'knb_username': String,
     'knb_id': Number,
     'links': {
         '_self': String,

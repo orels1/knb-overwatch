@@ -5,8 +5,10 @@
  * Created by orel- on 07/Feb/17.
  */
 const mongoose = require('mongoose');
+import * as jwt from 'jsonwebtoken';
+import Promise from 'bluebird';
 
-let ModerSchema = new mongoose.Schema({
+let ModSchema = new mongoose.Schema({
     'username': String,
     'knb_username': String,
     'knb_id': Number,
@@ -21,6 +23,11 @@ let ModerSchema = new mongoose.Schema({
     },
     'roles': [String],
     'created_at': {'type': Date, 'default': Date.now()},
+    'token': String,
 });
 
-module.exports = mongoose.model('Moder', ModerSchema);
+ModSchema.statics.sign = Promise.method(function(user) {
+    return jwt.sign({'id': user._id, 'roles': user.roles}, process.env.JWT_SECRET, {'expiresIn': '365d'});
+});
+
+module.exports = mongoose.model('Mod', ModSchema);

@@ -1,0 +1,75 @@
+{
+  "name": "knb-overwatch",
+  "version": "0.1.0",
+  "description": "A toolset for watching over kanobu.ru",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha test/*",
+    "start": "node app.js",
+    "postinstall": "bower install"
+  },
+  "keywords": [
+    "node"
+  ],
+  "engines": {
+    "node": ">=6.9.0 < 7.0.0"
+  },
+  "apidoc": {
+    "title": "KNB Overwatch API",
+    "url": "https://overwatch.kanobu.ru",
+    "sampleUrl": "http://localhost:4000/api/v1"
+  },
+  "author": "orels1",
+  "license": "MIT",
+  "devDependencies": {
+    "apidoc": "^0.16.1",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "dockerode": "^2.3.1",
+    "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "alt": "^0.18.6",
+    "app-module-path": "^2.1.0",
+    "async": "^2.1.4",
+    "atob": "^2.0.3",
+    "babel-core": "^6.21.0",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "babelify": "^7.3.0",
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.15.2",
+    "browserify": "^13.1.1",
+    "chai-http": "^3.0.0",
+    "co": "^4.6.0",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-if": "^2.0.2",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sass": "^3.0.0",
+    "history": "^4.5.0",
+    "jade": "^1.11.0",
+    "jsonwebtoken": "^7.2.1",
+    "moment": "^2.17.1",
+    "mongoose": "^4.7.6",
+    "morgan": "^1.7.0",
+    "node-schedule": "^1.2.0",
+    "nodemon": "^1.11.0",
+    "pug": "^2.0.0-beta11",
+    "raven": "^1.1.1",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-router": "^3.0.0",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "underscore": "^1.8.3",
+    "uuid": "^3.0.1",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.8.0"
+  }
+}
