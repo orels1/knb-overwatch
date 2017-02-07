@@ -8,6 +8,7 @@
 import express from 'express';
 let router = express.Router();
 import Log from 'models/log';
+import {passport} from './auth';
 
 /**
  * @apiDefine LogRequestSuccess
@@ -119,8 +120,9 @@ import Log from 'models/log';
  *              }
  *      }
  */
-router.get('/', (req, res) => {
+router.get('/', passport.authenticate('jwt', { 'session': false }), (req, res) => {
     Log.find({})
+        .populate('knb_user mod')
         .exec()
         .then((logs) => {
             return res.status(200).send({

@@ -29,6 +29,12 @@ class Navbar extends React.Component {
                 <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-label="Toggle navigation">
                     <i className="fa fa-bars" style={{'fontSize': '24px'}}></i>
                 </button>
+                <Link to="/" className="navbar-brand" activeClassName="active">
+                    <span className="fa-stack">
+                        <i className="fa fa-square fa-stack-2x"></i>
+                        <i className="fa fa-wheelchair-alt fa-stack-1x fa-inverse"></i>
+                    </span>
+                </Link>
                 <div className='collapse navbar-collapse justify-content-between' id='navbar'>
                     <div className="mr-auto">
                         <ul className="nav navbar-nav">

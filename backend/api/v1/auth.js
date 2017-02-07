@@ -165,7 +165,7 @@ router.get('/logout', (req, res) => {
 //         });
 // }
 
-router.post('/profile', passport.authenticate('jwt', { '': false }),
+router.post('/profile', passport.authenticate('jwt', { 'session': false }),
     function(req, res) {
         res.send(req.user);
     }
