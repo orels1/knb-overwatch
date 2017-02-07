@@ -54,7 +54,7 @@ gulp.task('vendor', function() {
         'bower_components/tether/dist/js/tether.js',
         'bower_components/bootstrap/dist/js/bootstrap.js',
     ]).pipe(concat('vendor.js'))
-        .pipe(gulpif(production, uglify({ mangle: false })))
+        //.pipe(gulpif(production, uglify({ mangle: false })))
         .pipe(gulp.dest('public/js'));
 });
 
@@ -131,8 +131,8 @@ gulp.task('browserify-watch', ['browserify-vendor'], function() {
 });
 
 // configure default tasks
-gulp.task('default', ['styles', 'browserify-watch', 'styles-watch']);
-gulp.task('build', ['styles', 'browserify'], function() {
+gulp.task('default', ['styles', 'vendor', 'browserify-watch', 'styles-watch']);
+gulp.task('build', ['styles', 'vendor', 'browserify'], function() {
     gulp.src('public/js/bundle.js');
 });
 

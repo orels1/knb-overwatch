@@ -7,6 +7,7 @@
 const mongoose = require('mongoose');
 import * as jwt from 'jsonwebtoken';
 import Promise from 'bluebird';
+import passportLocalMongoose from 'passport-local-mongoose';
 
 let ModSchema = new mongoose.Schema({
     'username': String,
@@ -27,7 +28,10 @@ let ModSchema = new mongoose.Schema({
 });
 
 ModSchema.statics.sign = Promise.method(function(user) {
-    return jwt.sign({'id': user._id, 'roles': user.roles}, process.env.JWT_SECRET, {'expiresIn': '365d'});
+    user.token = jwt.sign({'id': user._id, 'roles': user.roles}, process.env.JWT_SECRET, {'expiresIn': '365d'});
+    return user.save();
 });
+
+ModSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Mod', ModSchema);

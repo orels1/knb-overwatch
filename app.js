@@ -55,12 +55,13 @@ console.log('Server is listening at port ' + app.get('port'));
  * */
 
 // Main
-var logs = require('./backend/api/v1/logs');
+var logs = require('./backend/api/v1/logs'),
+    auth = require('./backend/api/v1/auth');
 
 /*
  * Passport
  * */
-// app.use(auth.passport.initialize());
+app.use(auth.passport.initialize());
 
 /*
  * CORS for API
@@ -101,37 +102,40 @@ function apiAccessControl(restricted, cors, req, res, next) {
 app.use('/api/v1/logs', cors(),
     // function(req, res, next) {apiAccessControl(true, false, req, res, next);},
     logs.router);
+app.use('/api/v1/auth', cors(),
+    // function(req, res, next) {apiAccessControl(true, false, req, res, next);},
+    auth.router);
 
 /*
  * Frontend
  * */
-// var pug  = require('pug'),
-//     React = require('react'),
-//     ReactDOM = require('react-dom/server'),
-//     Router = require('react-router'),
-//     routes = require('frontend/app/routes'),
-//     DocumentMeta = require('react-document-meta');
-//
-// app.set('view engine', 'pug');
-//
-// /*
-//  * React Middleware
-//  * */
-// app.use(function(req, res) {
-//     Router.match({ 'routes': routes.default, 'location': req.url }, function(err, redirectLocation, renderProps) {
-//         if (err) {
-//             res.status(500).send(err.message);
-//         } else if (redirectLocation) {
-//             res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
-//         } else if (renderProps) {
-//             var html = ReactDOM.renderToString(React.createElement(Router.RouterContext, renderProps));
-//             var head = DocumentMeta.renderAsHTML();
-//             res.render('frontend/views/index', { 'html': html, 'head': head });
-//         } else {
-//             res.status(404).send('Page Not Found');
-//         }
-//     });
-// });
+var pug  = require('pug'),
+    React = require('react'),
+    ReactDOM = require('react-dom/server'),
+    Router = require('react-router'),
+    routes = require('frontend/app/routes'),
+    DocumentMeta = require('react-document-meta');
+
+app.set('view engine', 'pug');
+
+/*
+ * React Middleware
+ * */
+app.use(function(req, res) {
+    Router.match({ 'routes': routes.default, 'location': req.url }, function(err, redirectLocation, renderProps) {
+        if (err) {
+            res.status(500).send(err.message);
+        } else if (redirectLocation) {
+            res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
+        } else if (renderProps) {
+            var html = ReactDOM.renderToString(React.createElement(Router.RouterContext, renderProps));
+            var head = DocumentMeta.renderAsHTML();
+            res.render('../frontend/views/index', { 'html': html, 'head': head });
+        } else {
+            res.status(404).send('Page Not Found');
+        }
+    });
+});
 
 // Error handler
 if (process.env.NODE_ENV === 'prod') {
